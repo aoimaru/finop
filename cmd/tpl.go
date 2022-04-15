@@ -6,6 +6,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/aoimaru/finop/lib"
 	"github.com/spf13/cobra"
@@ -22,9 +23,19 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("tpl called")
-		lib.LibTest()
+		const ZERO = 0
+		fps, err := lib.ListFiles(args[ZERO])
+		if err != nil {
+			log.Fatal(err)
+		}
+		for _, fp := range fps {
+			fmt.Println(fp)
+		}
 	},
+}
+
+func listAll(arg string) {
+	fmt.Println("hello")
 }
 
 func init() {

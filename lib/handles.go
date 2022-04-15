@@ -24,6 +24,6 @@ func ListFiles(root string) ([]string, error) {
 	return fps, nil
 }
 
-func LibTest() {
-	fmt.Println("LibTest")
+func LibTest(args string) {
+	fmt.Println(args)
 }
