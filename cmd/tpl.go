@@ -12,6 +12,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type Options struct {
+	ext string
+	jsn string
+}
+
+var (
+	opt = &Options{}
+)
+
 // tplCmd represents the tpl command
 var tplCmd = &cobra.Command{
 	Use:   "tpl",
@@ -31,6 +40,7 @@ to quickly create a Cobra application.`,
 		for _, fp := range fps {
 			fmt.Println(fp)
 		}
+		fmt.Println("show called: extentino: ", opt.ext)
 	},
 }
 
@@ -40,6 +50,8 @@ func listAll(arg string) {
 
 func init() {
 	rootCmd.AddCommand(tplCmd)
+	tplCmd.Flags().StringVarP(&opt.ext, "ext", "e", "php", "get phpFile")
+	tplCmd.Flags().StringVarP(&opt.jsn, "json", "j", "json", "to json file")
 
 	// Here you will define your flags and configuration settings.
 
