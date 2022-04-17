@@ -10,6 +10,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type RootOpt struct {
+	jsn string
+}
+
+var (
+	rOpt = &RootOpt{}
+)
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "finop",
@@ -43,6 +51,6 @@ func init() {
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().StringP("name", "n", "", "Your name")
+	rootCmd.Flags().StringVarP(&rOpt.jsn, "json", "j", "default.json", "to json file")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

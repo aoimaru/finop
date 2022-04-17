@@ -7,6 +7,7 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/aoimaru/finop/lib"
 	"github.com/spf13/cobra"
@@ -41,6 +42,7 @@ to quickly create a Cobra application.`,
 			fmt.Println(fp)
 		}
 		fmt.Println("show called: extentino: ", opt.ext)
+		fmt.Println("show called: extentino: ", opt.jsn)
 	},
 }
 
@@ -48,10 +50,14 @@ func listAll(arg string) {
 	fmt.Println("hello")
 }
 
+func ToName(name string) string {
+	return name
+}
+
 func init() {
 	rootCmd.AddCommand(tplCmd)
 	tplCmd.Flags().StringVarP(&opt.ext, "ext", "e", "php", "get phpFile")
-	tplCmd.Flags().StringVarP(&opt.jsn, "json", "j", "json", "to json file")
+	tplCmd.Flags().StringVarP(&opt.jsn, "json", "j", ToName(os.Args[0]), "to json file")
 
 	// Here you will define your flags and configuration settings.
 
