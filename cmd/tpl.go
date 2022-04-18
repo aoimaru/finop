@@ -7,7 +7,6 @@ package cmd
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/aoimaru/finop/lib"
 	"github.com/spf13/cobra"
@@ -15,17 +14,39 @@ import (
 
 type Options struct {
 	ext string
-	jsn string
+	jsn bool
 }
 
 var (
 	opt = &Options{}
 )
 
+func getToJ(directory string) []lib.ToJ {
+	datas := make([]lib.ToJ, 0)
+	fps, err := lib.ListFiles(directory)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, fp := range fps {
+		exts := lib.GetExts(fp, opt.ext)
+		data := lib.ToOrigin(fp, exts)
+		datas = append(datas, data)
+	}
+	return datas
+}
+
+func getJsonObj(datas *[]lib.ToJ) ([]uint8, error) {
+	jsonBlob, err := lib.ToJson(datas)
+	if err != nil {
+		return nil, err
+	}
+	return jsonBlob, nil
+}
+
 // tplCmd represents the tpl command
 var tplCmd = &cobra.Command{
 	Use:   "tpl",
-	Short: "A brief description of your command",
+	Short: "get",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
@@ -34,15 +55,17 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		const ZERO = 0
-		fps, err := lib.ListFiles(args[ZERO])
-		if err != nil {
-			log.Fatal(err)
+		datas := getToJ(args[ZERO])
+		switch opt.jsn {
+		case true:
+			lib.ToFile(args[ZERO], datas)
+		case false:
+			jsonObj, err := getJsonObj(&datas)
+			if err != nil {
+				log.Fatal(err)
+			}
+			lib.ToClean(jsonObj)
 		}
-		for _, fp := range fps {
-			fmt.Println(fp)
-		}
-		fmt.Println("show called: extentino: ", opt.ext)
-		fmt.Println("show called: extentino: ", opt.jsn)
 	},
 }
 
@@ -57,7 +80,7 @@ func ToName(name string) string {
 func init() {
 	rootCmd.AddCommand(tplCmd)
 	tplCmd.Flags().StringVarP(&opt.ext, "ext", "e", "php", "get phpFile")
-	tplCmd.Flags().StringVarP(&opt.jsn, "json", "j", ToName(os.Args[0]), "to json file")
+	tplCmd.Flags().BoolVarP(&opt.jsn, "json", "j", false, "to json file")
 
 	// Here you will define your flags and configuration settings.
 
