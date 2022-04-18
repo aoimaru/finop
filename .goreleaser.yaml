@@ -1,0 +1,28 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+before:
+  hooks:
+    # You may remove this if you don't use go modules.
+    - go mod tidy
+    # you may remove this if you don't need go generate
+    - go generate ./...
+builds:
+  - binary: onigiri
+    goos:
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+      - 386
+archive:
+  format: zip
+  name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+  replacements:
+    amd64: 64-bit
+    386: 32-bit
+    darwin: macOS
+release:
+  github:
+    owner: omi-chan
+    name: onigiri-catch
