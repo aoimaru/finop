@@ -5,8 +5,10 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"log"
 	"os"
 
+	"github.com/aoimaru/finop/lib"
 	"github.com/spf13/cobra"
 )
 
@@ -17,6 +19,28 @@ type RootOpt struct {
 var (
 	rOpt = &RootOpt{}
 )
+
+func GetToJ(directory string) []lib.ToJ {
+	datas := make([]lib.ToJ, 0)
+	fps, err := lib.ListFiles(directory)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, fp := range fps {
+		exts := lib.GetExts(fp, opt.ext)
+		data := lib.ToOrigin(fp, exts)
+		datas = append(datas, data)
+	}
+	return datas
+}
+
+func GetJsonObj(datas *[]lib.ToJ) ([]uint8, error) {
+	jsonBlob, err := lib.ToJson(datas)
+	if err != nil {
+		return nil, err
+	}
+	return jsonBlob, nil
+}
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
