@@ -20,6 +20,14 @@ var (
 	rOpt = &RootOpt{}
 )
 
+type G2J struct {
+	fps string
+}
+
+type Handle interface {
+	ToData() []lib.ToJ
+}
+
 func GetToJ(directory string) []lib.ToJ {
 	datas := make([]lib.ToJ, 0)
 	fps, err := lib.ListFiles(directory)
