@@ -27,3 +27,11 @@ func ListFiles(root string) ([]string, error) {
 func LibTest(args string) {
 	fmt.Println(args)
 }
+
+func ToOrigin(fn string, exts []string) ToExt {
+	data := ToExt{
+		Name:       fn,
+		Extentions: exts,
+	}
+	return data
+}

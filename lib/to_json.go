@@ -7,22 +7,12 @@ import (
 	"io/ioutil"
 )
 
-type ToJ struct {
+type ToExt struct {
 	Name       string   `json:"name"`
 	Extentions []string `json:"extentions"`
 }
 
-func ToOrigin(filename string, extentions []string) ToJ {
-	data := ToJ{
-		Name:       filename,
-		Extentions: extentions,
-	}
-
-	return data
-
-}
-
-func ToJson(objs *[]ToJ) ([]byte, error) {
+func ToJson(objs *[]ToExt) ([]byte, error) {
 	jsonBlob, err := json.Marshal(objs)
 	if err != nil {
 		return nil, err
@@ -40,7 +30,7 @@ func ToClean(jsonBlob []uint8) {
 	fmt.Println(indentJson)
 }
 
-func ToFile(directory string, datas []ToJ) {
+func ToFile(directory string, datas []ToExt) {
 	toDicFile := directory + ".json"
 	file, _ := json.MarshalIndent(datas, "", " ")
 	_ = ioutil.WriteFile(toDicFile, file, 0644)

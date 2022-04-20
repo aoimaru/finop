@@ -5,7 +5,6 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"log"
 	"os"
 
 	"github.com/aoimaru/finop/lib"
@@ -20,29 +19,28 @@ var (
 	rOpt = &RootOpt{}
 )
 
-type G2J struct {
-	fps string
-}
-
 type Handle interface {
-	ToData() []lib.ToJ
+	get2stc() []lib.ToExt
 }
 
-func GetToJ(directory string) []lib.ToJ {
-	datas := make([]lib.ToJ, 0)
-	fps, err := lib.ListFiles(directory)
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, fp := range fps {
-		exts := lib.GetExts(fp, opt.ext)
-		data := lib.ToOrigin(fp, exts)
-		datas = append(datas, data)
-	}
-	return datas
+type Target interface {
+	getTarget()
 }
 
-func GetJsonObj(datas *[]lib.ToJ) ([]uint8, error) {
+// type ToExt struct {
+// 	Name       string   `json:"name"`
+// 	Extentions []string `json:"extentions"`
+// }
+
+// func (t2tag TplTag) toOrigin() lib.ToExt {
+// 	data := lib.ToExt{
+// 		Name:       t2tag.fn,
+// 		Extentions: t2tag.tpls,
+// 	}
+// 	return data
+// }
+
+func GetJsonObj(datas *[]lib.ToExt) ([]uint8, error) {
 	jsonBlob, err := lib.ToJson(datas)
 	if err != nil {
 		return nil, err
