@@ -58,7 +58,7 @@ func ToName(name string) string {
 func init() {
 	rootCmd.AddCommand(tplCmd)
 	tplCmd.Flags().StringVarP(&opt.ext, "ext", "e", "php", "get phpFile")
-	tplCmd.Flags().BoolVarP(&opt.jsn, "json", "j", false, "to json file")
+	// tplCmd.Flags().BoolVarP(&opt.jsn, "json", "j", false, "to json file")
 
 	// Here you will define your flags and configuration settings.
 

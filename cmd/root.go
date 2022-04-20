@@ -84,6 +84,6 @@ func init() {
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().StringVarP(&rOpt.jsn, "json", "j", "default.json", "to json file")
+	rootCmd.Flags().BoolVarP(&opt.jsn, "json", "j", false, "to json file")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
